@@ -468,6 +468,26 @@
     </ItemGroup>
   </Target>
 
+  <Target Name="DeployToSymStore"
+        BeforeTargets="PostBuildEvent" 
+        DependsOnTargets="_DeployToSymStoreSetProperties;_DeployPortableSymbolsToSymStore;_DeployWindowsSymbolsToSymStore" />
+    
+  <Target Name="_DeployToSymStoreSetProperties">
+
+    <PropertyGroup>
+      <_TargetPdbPath />
+      <_TargetPdbPath Condition="'$(DebugType)' != 'embedded'">$([System.IO.Path]::ChangeExtension($(TargetPath), '.pdb'))</_TargetPdbPath>
+      <_BuildsPortablePdb>false</_BuildsPortablePdb>
+      <_BuildsPortablePdb Condition="'$(DebugType)' == 'portable' or '$(DebugType)' == 'embedded'">true</_BuildsPortablePdb>
+
+      <_SymStoreOutputDir>$(ArtifactsSymStoreDirectory)$(MSBuildProjectName)\$(TargetFramework)\</_SymStoreOutputDir>
+      <_SymStorePdbPath>$(_SymStoreOutputDir)$(TargetName).pdb</_SymStorePdbPath>
+
+      <!-- By default publish Windows PDBs only for shipping components -->
+      <PublishWindowsPdb Condition="'$(PublishWindowsPdb)' == '' and '$(IsShippingAssembly)' == 'true' and Exists('$(TargetPath)') and ('$(DebugType)' == 'embedded' or Exists('$(_TargetPdbPath)'))">true</PublishWindowsPdb>
+    </PropertyGroup>
+  </Target>
+
   <ItemGroup>
     <EmbeddedResource Include="$(_ILLinkRuntimeRootDescriptorFilePath)">
       <LogicalName>$(MSBuildProjectName).xml</LogicalName>
