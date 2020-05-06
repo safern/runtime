@@ -33,6 +33,11 @@
 
   <UsingTask TaskName="GenerateRunScript" AssemblyFile="$(InstallerTasksAssemblyPath)"/>
   <Target Name="GenerateRunScript">
+    <ItemGroup Condition="'@(RunTestEnvironmentVariables)' != ''">
+      <RunScriptCommands Condition="'$(TargetOS)' == 'Windows_NT'" Include="@(RunTestEnvironmentVariables -> 'set %(Identity)')" />
+      <RunScriptCommands Condition="'$(TargetOS)' != 'Windows_NT'" Include="@(RunTestEnvironmentVariables -> 'export %(Identity)')" />
+    </ItemGroup>
+
     <PropertyGroup>
       <!-- RSP file support. -->
       <RunScriptCommand Condition="'$(TargetOS)' == 'Windows_NT'">$(RunScriptCommand) %RSP_FILE%</RunScriptCommand>
