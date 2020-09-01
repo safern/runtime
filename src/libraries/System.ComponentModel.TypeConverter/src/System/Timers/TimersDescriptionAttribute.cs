@@ -23,7 +23,7 @@ namespace System.Timers
         /// <summary>
         /// Constructs a new localized sys description.
         /// </summary>
-        internal TimersDescriptionAttribute(string description, string defaultValue) : base(SR.GetResourceString(description, defaultValue)) { }
+        internal TimersDescriptionAttribute(string description, string? defaultValue) : base(SR.GetResourceString(description, defaultValue)) { }
 
         /// <summary>
         /// Retrieves the description text.

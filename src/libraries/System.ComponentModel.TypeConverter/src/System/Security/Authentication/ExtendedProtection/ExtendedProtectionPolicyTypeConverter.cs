@@ -12,7 +12,7 @@ namespace System.Security.Authentication.ExtendedProtection
 {
     public class ExtendedProtectionPolicyTypeConverter : TypeConverter
     {
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type destinationType)
         {
             return destinationType == typeof(InstanceDescriptor) || base.CanConvertTo(context, destinationType);
         }

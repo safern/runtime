@@ -12,7 +12,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Initializes a new instance of the <see cref='System.ComponentModel.DefaultEventAttribute'/> class.
         /// </summary>
-        public DefaultEventAttribute(string name)
+        public DefaultEventAttribute(string? name)
         {
             Name = name;
         }
@@ -20,7 +20,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Gets the name of the default event for the component this attribute is bound to.
         /// </summary>
-        public string Name { get; }
+        public string? Name { get; }
 
         /// <summary>
         /// Specifies the default value for the <see cref='System.ComponentModel.DefaultEventAttribute'/>, which is
@@ -29,7 +29,7 @@ namespace System.ComponentModel
         /// </summary>
         public static readonly DefaultEventAttribute Default = new DefaultEventAttribute(null);
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return (obj is DefaultEventAttribute other) && other.Name == Name;
         }

@@ -31,7 +31,7 @@ namespace System.ComponentModel
         /// data type. If the method is not interested in providing a substitute
         /// instance, it should call base.
         /// </summary>
-        public override object CreateInstance(IServiceProvider provider, Type objectType, Type[] argTypes, object[] args)
+        public override object? CreateInstance(IServiceProvider? provider, Type objectType, Type[]? argTypes, object?[]? args)
         {
             return Provider.CreateInstance(provider, objectType, argTypes, args);
         }
@@ -47,7 +47,7 @@ namespace System.ComponentModel
         /// The GetCache method returns an instance of this cache. GetCache will return
         /// null if there is no supported cache for an object.
         /// </summary>
-        public override IDictionary GetCache(object instance) => Provider.GetCache(instance);
+        public override IDictionary? GetCache(object? instance) => Provider.GetCache(instance);
 
         /// <summary>
         /// The name of the specified component, or null if the component has no name.
@@ -58,7 +58,7 @@ namespace System.ComponentModel
         /// If not overridden, the default implementation of this method will call
         /// GetTypeDescriptor.GetComponentName.
         /// </summary>
-        public override string GetFullComponentName(object component) => Provider.GetFullComponentName(component);
+        public override string? GetFullComponentName(object component) => Provider.GetFullComponentName(component);
 
         /// <summary>
         /// This method returns an extended custom type descriptor for the given object.
@@ -89,7 +89,7 @@ namespace System.ComponentModel
         /// If no custom type descriptor can be located for an object, GetReflection
         /// is called to perform normal reflection against the object.
         /// </summary>
-        public override Type GetReflectionType(Type objectType, object instance)
+        public override Type GetReflectionType(Type objectType, object? instance)
         {
             return Provider.GetReflectionType(objectType, instance);
         }
@@ -104,7 +104,7 @@ namespace System.ComponentModel
         /// interested in providing type information for the object it should
         /// return null.
         /// </summary>
-        public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object instance)
+        public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object? instance)
         {
             return Provider.GetTypeDescriptor(objectType, instance);
         }

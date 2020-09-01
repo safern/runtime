@@ -10,7 +10,7 @@ namespace System.ComponentModel
     {
         bool AllowNew { get; }
 
-        object AddNew();
+        object? AddNew();
 
         bool AllowEdit { get; }
 
@@ -24,11 +24,11 @@ namespace System.ComponentModel
 
         bool IsSorted { get; }
 
-        PropertyDescriptor SortProperty { get; }
+        PropertyDescriptor? SortProperty { get; }
 
         ListSortDirection SortDirection { get; }
 
-        event ListChangedEventHandler ListChanged;
+        event ListChangedEventHandler? ListChanged;
 
         void AddIndex(PropertyDescriptor property);
 

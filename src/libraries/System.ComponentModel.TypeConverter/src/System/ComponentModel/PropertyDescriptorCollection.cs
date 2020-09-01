@@ -33,7 +33,7 @@ namespace System.ComponentModel
         /// Initializes a new instance of the <see cref='System.ComponentModel.PropertyDescriptorCollection'/>
         /// class.
         /// </summary>
-        public PropertyDescriptorCollection(PropertyDescriptor[] properties)
+        public PropertyDescriptorCollection(PropertyDescriptor[]? properties)
         {
             if (properties == null)
             {

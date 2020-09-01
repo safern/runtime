@@ -25,7 +25,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Convert the given value to a string using the given radix
         /// </summary>
-        internal abstract object FromString(string value, int radix);
+        internal abstract object FromString(string? value, int radix);
 
         /// <summary>
         /// Convert the given value to a string using the given formatInfo
@@ -41,7 +41,7 @@ namespace System.ComponentModel
         /// Gets a value indicating whether this converter can convert an object in the
         /// given source type to the TargetType object using the specified context.
         /// </summary>
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type? sourceType)
         {
             return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
         }
@@ -49,7 +49,9 @@ namespace System.ComponentModel
         /// <summary>
         /// Converts the given value object to an object of Type TargetType.
         /// </summary>
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+#pragma warning disable CS8765
+        public override object ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
+#pragma warning restore CS8765
         {
             if (value is string text)
             {
@@ -73,7 +75,7 @@ namespace System.ComponentModel
                             culture = CultureInfo.CurrentCulture;
                         }
 
-                        NumberFormatInfo formatInfo = (NumberFormatInfo)culture.GetFormat(typeof(NumberFormatInfo));
+                        NumberFormatInfo formatInfo = culture.NumberFormat;
                         return FromString(text, formatInfo);
                     }
                 }
@@ -89,7 +91,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Converts the given value object to the destination type.
         /// </summary>
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        public override object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
         {
             if (destinationType == null)
             {
@@ -103,7 +105,7 @@ namespace System.ComponentModel
                     culture = CultureInfo.CurrentCulture;
                 }
 
-                NumberFormatInfo formatInfo = (NumberFormatInfo)culture.GetFormat(typeof(NumberFormatInfo));
+                NumberFormatInfo formatInfo = culture.NumberFormat;
                 return ToString(value, formatInfo);
             }
 
@@ -115,7 +117,7 @@ namespace System.ComponentModel
             return base.ConvertTo(context, culture, value, destinationType);
         }
 
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
         {
             if (destinationType != null && destinationType.IsPrimitive)
             {

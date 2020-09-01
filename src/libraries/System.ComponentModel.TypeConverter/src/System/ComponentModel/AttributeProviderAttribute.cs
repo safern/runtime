@@ -42,11 +42,11 @@ namespace System.ComponentModel
         /// The TypeName property returns the assembly qualified type name
         /// passed into the constructor.
         /// </summary>
-        public string TypeName { get; }
+        public string? TypeName { get; }
 
         /// <summary>
         /// The TypeName property returns the property name that will be used to query attributes from.
         /// </summary>
-        public string PropertyName { get; }
+        public string? PropertyName { get; }
     }
 }

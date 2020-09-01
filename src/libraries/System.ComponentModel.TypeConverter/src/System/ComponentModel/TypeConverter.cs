@@ -17,26 +17,26 @@ namespace System.ComponentModel
         /// Gets a value indicating whether this converter can convert an object in the
         /// given source type to the native type of the converter.
         /// </summary>
-        public bool CanConvertFrom(Type sourceType) => CanConvertFrom(null, sourceType);
+        public bool CanConvertFrom(Type? sourceType) => CanConvertFrom(null, sourceType);
 
         /// <summary>
         /// Gets a value indicating whether this converter can convert an object in the given
         /// source type to the native type of the converter using the context.
         /// </summary>
-        public virtual bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        public virtual bool CanConvertFrom(ITypeDescriptorContext? context, Type? sourceType)
             => sourceType == typeof(InstanceDescriptor);
 
         /// <summary>
         /// Gets a value indicating whether this converter can convert an object to the given
         /// destination type using the context.
         /// </summary>
-        public bool CanConvertTo(Type destinationType) => CanConvertTo(null, destinationType);
+        public bool CanConvertTo(Type? destinationType) => CanConvertTo(null, destinationType);
 
         /// <summary>
         /// Gets a value indicating whether this converter can convert an object to the given
         /// destination type using the context.
         /// </summary>
-        public virtual bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        public virtual bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
         {
             return destinationType == typeof(string);
         }
@@ -44,12 +44,12 @@ namespace System.ComponentModel
         /// <summary>
         /// Converts the given value to the converter's native type.
         /// </summary>
-        public object ConvertFrom(object value) => ConvertFrom(null, CultureInfo.CurrentCulture, value);
+        public object ConvertFrom(object? value) => ConvertFrom(null, CultureInfo.CurrentCulture, value);
 
         /// <summary>
         /// Converts the given object to the converter's native type.
         /// </summary>
-        public virtual object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        public virtual object ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object? value)
         {
             if (value is InstanceDescriptor instanceDescriptor)
             {
@@ -69,7 +69,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Converts the given string to the converter's native type using the invariant culture.
         /// </summary>
-        public object ConvertFromInvariantString(ITypeDescriptorContext context, string text)
+        public object ConvertFromInvariantString(ITypeDescriptorContext? context, string text)
         {
             return ConvertFromString(context, CultureInfo.InvariantCulture, text);
         }
@@ -82,7 +82,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Converts the specified text into an object.
         /// </summary>
-        public object ConvertFromString(ITypeDescriptorContext context, string text)
+        public object ConvertFromString(ITypeDescriptorContext? context, string text)
         {
             return ConvertFrom(context, CultureInfo.CurrentCulture, text);
         }
@@ -90,7 +90,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Converts the specified text into an object.
         /// </summary>
-        public object ConvertFromString(ITypeDescriptorContext context, CultureInfo culture, string text)
+        public object ConvertFromString(ITypeDescriptorContext? context, CultureInfo? culture, string text)
         {
             return ConvertFrom(context, culture, text);
         }
@@ -99,7 +99,7 @@ namespace System.ComponentModel
         /// Converts the given
         /// value object to the specified destination type using the arguments.
         /// </summary>
-        public object ConvertTo(object value, Type destinationType)
+        public object? ConvertTo(object? value, Type destinationType)
         {
             return ConvertTo(null, null, value, destinationType);
         }
@@ -108,7 +108,7 @@ namespace System.ComponentModel
         /// Converts the given value object to
         /// the specified destination type using the specified context and arguments.
         /// </summary>
-        public virtual object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        public virtual object? ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
         {
             if (destinationType == null)
             {
@@ -137,7 +137,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Converts the specified value to a culture-invariant string representation.
         /// </summary>
-        public string ConvertToInvariantString(object value)
+        public string? ConvertToInvariantString(object? value)
         {
             return ConvertToString(null, CultureInfo.InvariantCulture, value);
         }
@@ -145,7 +145,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Converts the specified value to a culture-invariant string representation.
         /// </summary>
-        public string ConvertToInvariantString(ITypeDescriptorContext context, object value)
+        public string? ConvertToInvariantString(ITypeDescriptorContext? context, object? value)
         {
             return ConvertToString(context, CultureInfo.InvariantCulture, value);
         }
@@ -153,31 +153,31 @@ namespace System.ComponentModel
         /// <summary>
         /// Converts the specified value to a string representation.
         /// </summary>
-        public string ConvertToString(object value)
+        public string? ConvertToString(object? value)
         {
-            return (string)ConvertTo(null, CultureInfo.CurrentCulture, value, typeof(string));
+            return (string?)ConvertTo(null, CultureInfo.CurrentCulture, value, typeof(string));
         }
 
         /// <summary>
         /// Converts the specified value to a string representation.
         /// </summary>
-        public string ConvertToString(ITypeDescriptorContext context, object value)
+        public string? ConvertToString(ITypeDescriptorContext? context, object? value)
         {
-            return (string)ConvertTo(context, CultureInfo.CurrentCulture, value, typeof(string));
+            return (string?)ConvertTo(context, CultureInfo.CurrentCulture, value, typeof(string));
         }
 
         /// <summary>
         /// Converts the specified value to a string representation.
         /// </summary>
-        public string ConvertToString(ITypeDescriptorContext context, CultureInfo culture, object value)
+        public string? ConvertToString(ITypeDescriptorContext? context, CultureInfo? culture, object? value)
         {
-            return (string)ConvertTo(context, culture, value, typeof(string));
+            return (string?)ConvertTo(context, culture, value, typeof(string));
         }
 
         /// <summary>
         /// Re-creates an <see cref='object'/> given a set of property values for the object.
         /// </summary>
-        public object CreateInstance(IDictionary propertyValues)
+        public object? CreateInstance(IDictionary propertyValues)
         {
             return CreateInstance(null, propertyValues);
         }
@@ -185,14 +185,14 @@ namespace System.ComponentModel
         /// <summary>
         /// Re-creates an <see cref='object'/> given a set of property values for the object.
         /// </summary>
-        public virtual object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues) => null;
+        public virtual object? CreateInstance(ITypeDescriptorContext? context, IDictionary propertyValues) => null;
 
         /// <summary>
         /// Gets a suitable exception to throw when a conversion cannot be performed.
         /// </summary>
-        protected Exception GetConvertFromException(object value)
+        protected Exception GetConvertFromException(object? value)
         {
-            string valueTypeName = value == null ? SR.Null : value.GetType().FullName;
+            string? valueTypeName = value == null ? SR.Null : value.GetType().FullName;
             throw new NotSupportedException(SR.Format(SR.ConvertFromException, GetType().Name, valueTypeName));
         }
 
@@ -200,9 +200,9 @@ namespace System.ComponentModel
         /// Retrieves a suitable exception to throw when a conversion cannot
         /// be performed.
         /// </summary>
-        protected Exception GetConvertToException(object value, Type destinationType)
+        protected Exception GetConvertToException(object? value, Type destinationType)
         {
-            string valueTypeName = value == null ? SR.Null : value.GetType().FullName;
+            string? valueTypeName = value == null ? SR.Null : value.GetType().FullName;
             throw new NotSupportedException(SR.Format(SR.ConvertToException, GetType().Name, valueTypeName, destinationType.FullName));
         }
 
@@ -219,12 +219,12 @@ namespace System.ComponentModel
         /// using the specified context.
         ///
         /// </summary>
-        public virtual bool GetCreateInstanceSupported(ITypeDescriptorContext context) => false;
+        public virtual bool GetCreateInstanceSupported(ITypeDescriptorContext? context) => false;
 
         /// <summary>
         /// Gets a collection of properties for the type of array specified by the value parameter.
         /// </summary>
-        public PropertyDescriptorCollection GetProperties(object value) => GetProperties(null, value);
+        public PropertyDescriptorCollection? GetProperties(object? value) => GetProperties(null, value);
 
         /// <summary>
         ///
@@ -232,7 +232,7 @@ namespace System.ComponentModel
         /// the specified context.
         ///
         /// </summary>
-        public PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value)
+        public PropertyDescriptorCollection? GetProperties(ITypeDescriptorContext? context, object? value)
         {
             return GetProperties(context, value, new Attribute[] { BrowsableAttribute.Yes });
         }
@@ -243,7 +243,7 @@ namespace System.ComponentModel
         /// the specified context and attributes.
         ///
         /// </summary>
-        public virtual PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
+        public virtual PropertyDescriptorCollection? GetProperties(ITypeDescriptorContext? context, object value, Attribute[]? attributes)
         {
             return null;
         }
@@ -256,7 +256,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Gets a value indicating whether this object supports properties using the specified context.
         /// </summary>
-        public virtual bool GetPropertiesSupported(ITypeDescriptorContext context) => false;
+        public virtual bool GetPropertiesSupported(ITypeDescriptorContext? context) => false;
 
         /// <summary>
         /// Gets a collection of standard values for the data type this type converter is designed for.
@@ -266,7 +266,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Gets a collection of standard values for the data type this type converter is designed for.
         /// </summary>
-        public virtual StandardValuesCollection GetStandardValues(ITypeDescriptorContext context) => null;
+        public virtual StandardValuesCollection GetStandardValues(ITypeDescriptorContext? context) => null!;
 
         /// <summary>
         /// Gets a value indicating whether the collection of standard values returned from
@@ -279,7 +279,7 @@ namespace System.ComponentModel
         /// <see cref='System.ComponentModel.TypeConverter.GetStandardValues()'/> is an exclusive
         /// list of possible values, using the specified context.
         /// </summary>
-        public virtual bool GetStandardValuesExclusive(ITypeDescriptorContext context) => false;
+        public virtual bool GetStandardValuesExclusive(ITypeDescriptorContext? context) => false;
 
         /// <summary>
         /// Gets a value indicating whether this object supports a standard set of values
@@ -291,7 +291,7 @@ namespace System.ComponentModel
         /// Gets a value indicating whether this object supports a standard set of values that can be picked
         /// from a list using the specified context.
         /// </summary>
-        public virtual bool GetStandardValuesSupported(ITypeDescriptorContext context) => false;
+        public virtual bool GetStandardValuesSupported(ITypeDescriptorContext? context) => false;
 
         /// <summary>
         /// Gets a value indicating whether the given value object is valid for this type.
@@ -301,7 +301,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Gets a value indicating whether the given value object is valid for this type.
         /// </summary>
-        public virtual bool IsValid(ITypeDescriptorContext context, object value)
+        public virtual bool IsValid(ITypeDescriptorContext? context, object? value)
         {
             bool isValid = true;
             try
@@ -343,14 +343,14 @@ namespace System.ComponentModel
             /// <summary>
             /// Initializes a new instance of the <see cref='System.ComponentModel.TypeConverter.SimplePropertyDescriptor'/> class.
             /// </summary>
-            protected SimplePropertyDescriptor(Type componentType, string name, Type propertyType) : this(componentType, name, propertyType, Array.Empty<Attribute>())
+            protected SimplePropertyDescriptor(Type? componentType, string name, Type propertyType) : this(componentType, name, propertyType, Array.Empty<Attribute>())
             {
             }
 
             /// <summary>
             /// Initializes a new instance of the <see cref='System.ComponentModel.TypeConverter.SimplePropertyDescriptor'/> class.
             /// </summary>
-            protected SimplePropertyDescriptor(Type componentType, string name, Type propertyType, Attribute[] attributes) : base(name, attributes)
+            protected SimplePropertyDescriptor(Type? componentType, string name, Type propertyType, Attribute[]? attributes) : base(name, attributes)
             {
                 ComponentType = componentType;
                 PropertyType = propertyType;
@@ -359,7 +359,7 @@ namespace System.ComponentModel
             /// <summary>
             /// Gets the type of the component this property description is bound to.
             /// </summary>
-            public override Type ComponentType { get; }
+            public override Type? ComponentType { get; }
 
             /// <summary>
             /// Gets a value indicating whether this property is read-only.
@@ -376,10 +376,16 @@ namespace System.ComponentModel
             /// </summary>
             public override bool CanResetValue(object component)
             {
-                DefaultValueAttribute attr = (DefaultValueAttribute)Attributes[typeof(DefaultValueAttribute)];
+                DefaultValueAttribute? attr = (DefaultValueAttribute?)Attributes[typeof(DefaultValueAttribute)];
                 if (attr == null)
                 {
                     return false;
+                }
+
+                object? value = GetValue(component);
+                if (attr.Value == null)
+                {
+                    return value == null;
                 }
 
                 return attr.Value.Equals(GetValue(component));
@@ -390,7 +396,7 @@ namespace System.ComponentModel
             /// </summary>
             public override void ResetValue(object component)
             {
-                DefaultValueAttribute attr = (DefaultValueAttribute)Attributes[typeof(DefaultValueAttribute)];
+                DefaultValueAttribute? attr = (DefaultValueAttribute?)Attributes[typeof(DefaultValueAttribute)];
                 if (attr != null)
                 {
                     SetValue(component, attr.Value);
@@ -400,7 +406,7 @@ namespace System.ComponentModel
             /// <summary>
             /// Gets a value indicating whether the value of this property needs to be persisted.
             /// </summary>
-            public override bool ShouldSerializeValue(object component) => false;
+            public override bool ShouldSerializeValue(object? component) => false;
         }
 
         /// <summary>
@@ -409,14 +415,14 @@ namespace System.ComponentModel
         public class StandardValuesCollection : ICollection
         {
             private readonly ICollection _values;
-            private Array _valueArray;
+            private Array? _valueArray;
 
             /// <summary>
             ///
             /// Initializes a new instance of the <see cref='System.ComponentModel.TypeConverter.StandardValuesCollection'/> class.
             ///
             /// </summary>
-            public StandardValuesCollection(ICollection values)
+            public StandardValuesCollection(ICollection? values)
             {
                 if (values == null)
                 {
@@ -454,7 +460,7 @@ namespace System.ComponentModel
             /// <summary>
             /// Gets the object at the specified index number.
             /// </summary>
-            public object this[int index]
+            public object? this[int index]
             {
                 get
                 {
@@ -494,7 +500,7 @@ namespace System.ComponentModel
             /// Retrieves the synchronization root for this collection. Because we are not synchronized,
             /// this returns null.
             /// </summary>
-            object ICollection.SyncRoot => null;
+            object ICollection.SyncRoot => null!;
         }
     }
 }

@@ -12,7 +12,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Initializes a new instance of the <see cref='System.ComponentModel.DefaultPropertyAttribute'/> class.
         /// </summary>
-        public DefaultPropertyAttribute(string name)
+        public DefaultPropertyAttribute(string? name)
         {
             Name = name;
         }
@@ -21,7 +21,7 @@ namespace System.ComponentModel
         /// Gets the name of the default property for the component this attribute is
         /// bound to.
         /// </summary>
-        public string Name { get; }
+        public string? Name { get; }
 
         /// <summary>
         /// Specifies the default value for the <see cref='System.ComponentModel.DefaultPropertyAttribute'/>, which is <see langword='null'/>. This
@@ -29,7 +29,7 @@ namespace System.ComponentModel
         /// </summary>
         public static readonly DefaultPropertyAttribute Default = new DefaultPropertyAttribute(null);
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return (obj is DefaultPropertyAttribute other) && other.Name == Name;
         }

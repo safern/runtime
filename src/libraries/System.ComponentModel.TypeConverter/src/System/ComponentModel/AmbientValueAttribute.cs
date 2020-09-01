@@ -17,7 +17,7 @@ namespace System.ComponentModel
         /// specified value to the specified type, and using the U.S. English culture as the
         /// translation context.
         /// </summary>
-        public AmbientValueAttribute(Type type, string value)
+        public AmbientValueAttribute(Type type, string? value)
         {
             // The try/catch here is because attributes should never throw exceptions. We would fail to
             // load an otherwise normal class.
@@ -105,7 +105,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Initializes a new instance of the <see cref='System.ComponentModel.AmbientValueAttribute'/> class using a <see cref='string'/>.
         /// </summary>
-        public AmbientValueAttribute(string value)
+        public AmbientValueAttribute(string? value)
         {
             Value = value;
         }
@@ -114,7 +114,7 @@ namespace System.ComponentModel
         /// Initializes a new instance of the <see cref='System.ComponentModel.AmbientValueAttribute'/>
         /// class.
         /// </summary>
-        public AmbientValueAttribute(object value)
+        public AmbientValueAttribute(object?aa value)
         {
             Value = value;
         }
@@ -122,9 +122,9 @@ namespace System.ComponentModel
         /// <summary>
         /// Gets the ambient value of the property this attribute is bound to.
         /// </summary>
-        public object Value { get; }
+        public object? Value { get; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this)
             {

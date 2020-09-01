@@ -12,17 +12,17 @@ namespace System.ComponentModel
     /// </summary>
     public abstract class PropertyDescriptor : MemberDescriptor
     {
-        private TypeConverter _converter;
-        private Hashtable _valueChangedHandlers;
-        private object[] _editors;
-        private Type[] _editorTypes;
+        private TypeConverter? _converter;
+        private Hashtable? _valueChangedHandlers;
+        private object[]? _editors;
+        private Type[]? _editorTypes;
         private int _editorCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref='System.ComponentModel.PropertyDescriptor'/> class with the specified name and
         /// attributes.
         /// </summary>
-        protected PropertyDescriptor(string name, Attribute[] attrs) : base(name, attrs)
+        protected PropertyDescriptor(string name, Attribute[]? attrs) : base(name, attrs)
         {
         }
 
@@ -42,7 +42,7 @@ namespace System.ComponentModel
         /// <see cref='System.Attribute'/> array.
         ///
         /// </summary>
-        protected PropertyDescriptor(MemberDescriptor descr, Attribute[] attrs) : base(descr, attrs)
+        protected PropertyDescriptor(MemberDescriptor descr, Attribute[]? attrs) : base(descr, attrs)
         {
         }
 
@@ -50,7 +50,7 @@ namespace System.ComponentModel
         /// When overridden in a derived class, gets the type of the
         /// component this property is bound to.
         /// </summary>
-        public abstract Type ComponentType { get; }
+        public abstract Type? ComponentType { get; }
 
         /// <summary>
         /// Gets the type converter for this property.
@@ -65,8 +65,8 @@ namespace System.ComponentModel
 
                 if (_converter == null)
                 {
-                    TypeConverterAttribute attr = (TypeConverterAttribute)attrs[typeof(TypeConverterAttribute)];
-                    if (attr.ConverterTypeName != null && attr.ConverterTypeName.Length > 0)
+                    TypeConverterAttribute? attr = (TypeConverterAttribute?)attrs[typeof(TypeConverterAttribute)];
+                    if (attr?.ConverterTypeName != null && attr.ConverterTypeName.Length > 0)
                     {
                         Type converterType = GetTypeFromName(attr.ConverterTypeName);
                         if (converterType != null && typeof(TypeConverter).IsAssignableFrom(converterType))
@@ -105,8 +105,8 @@ namespace System.ComponentModel
         {
             get
             {
-                DesignerSerializationVisibilityAttribute attr = (DesignerSerializationVisibilityAttribute)Attributes[typeof(DesignerSerializationVisibilityAttribute)];
-                return attr.Visibility;
+                DesignerSerializationVisibilityAttribute? attr = (DesignerSerializationVisibilityAttribute?)Attributes[typeof(DesignerSerializationVisibilityAttribute)];
+                return attr?.Visibility ?? DesignerSerializationVisibility.Visible;
             }
         }
 
@@ -134,7 +134,7 @@ namespace System.ComponentModel
                 _valueChangedHandlers = new Hashtable();
             }
 
-            EventHandler h = (EventHandler)_valueChangedHandlers[component];
+            EventHandler? h = (EventHandler?)_valueChangedHandlers[component];
             _valueChangedHandlers[component] = Delegate.Combine(h, handler);
         }
 
@@ -150,7 +150,7 @@ namespace System.ComponentModel
         /// to see if they are equivalent.
         /// NOTE: If you make a change here, you likely need to change GetHashCode() as well.
         /// </summary>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             try
             {
@@ -186,7 +186,7 @@ namespace System.ComponentModel
         protected object CreateInstance(Type type)
         {
             Type[] typeArgs = new Type[] { typeof(Type) };
-            ConstructorInfo ctor = type.GetConstructor(typeArgs);
+            ConstructorInfo? ctor = type.GetConstructor(typeArgs);
             if (ctor != null)
             {
                 return TypeDescriptor.CreateInstance(null, type, typeArgs, new object[] { PropertyType });
@@ -221,7 +221,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Retrieves the properties
         /// </summary>
-        public virtual PropertyDescriptorCollection GetChildProperties(object instance, Attribute[] filter)
+        public virtual PropertyDescriptorCollection GetChildProperties(object? instance, Attribute[]? filter)
         {
             if (instance == null)
             {
@@ -371,17 +371,17 @@ namespace System.ComponentModel
         /// <summary>
         /// When overridden in a derived class, gets the current value of the property on a component.
         /// </summary>
-        public abstract object GetValue(object component);
+        public abstract object? GetValue(object component);
 
         /// <summary>
         /// This should be called by your property descriptor implementation
         /// when the property value has changed.
         /// </summary>
-        protected virtual void OnValueChanged(object component, EventArgs e)
+        protected virtual void OnValueChanged(object? component, EventArgs e)
         {
             if (component != null)
             {
-                ((EventHandler)_valueChangedHandlers?[component])?.Invoke(component, e);
+                ((EventHandler?)_valueChangedHandlers?[component])?.Invoke(component, e);
             }
         }
 
@@ -419,11 +419,11 @@ namespace System.ComponentModel
         /// component, in the form of a combined multicast event handler.
         /// Returns null if no event handlers currently assigned to component.
         /// </summary>
-        protected internal EventHandler GetValueChangedHandler(object component)
+        protected internal EventHandler? GetValueChangedHandler(object? component)
         {
             if (component != null && _valueChangedHandlers != null)
             {
-                return (EventHandler)_valueChangedHandlers[component];
+                return (EventHandler?)_valueChangedHandlers[component];
             }
             else
             {
@@ -440,13 +440,13 @@ namespace System.ComponentModel
         /// When overridden in a derived class, sets the value of
         /// the component to a different value.
         /// </summary>
-        public abstract void SetValue(object component, object value);
+        public abstract void SetValue(object component, object? value);
 
         /// <summary>
         /// When overridden in a derived class, indicates whether the
         /// value of this property needs to be persisted.
         /// </summary>
-        public abstract bool ShouldSerializeValue(object component);
+        public abstract bool ShouldSerializeValue(object? component);
 
         /// <summary>
         /// Indicates whether value change notifications for this property may originate from outside the property

@@ -11,7 +11,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Initializes a new instance of the <see cref='System.ComponentModel.CollectionChangeEventArgs'/> class.
         /// </summary>
-        public CollectionChangeEventArgs(CollectionChangeAction action, object element)
+        public CollectionChangeEventArgs(CollectionChangeAction? action, object? element)
         {
             Action = action;
             Element = element;
@@ -20,11 +20,11 @@ namespace System.ComponentModel
         /// <summary>
         /// Gets an action that specifies how the collection changed.
         /// </summary>
-        public virtual CollectionChangeAction Action { get; }
+        public virtual CollectionChangeAction? Action { get; }
 
         /// <summary>
         /// Gets the instance of the collection with the change.
         /// </summary>
-        public virtual object Element { get; }
+        public virtual object? Element { get; }
     }
 }

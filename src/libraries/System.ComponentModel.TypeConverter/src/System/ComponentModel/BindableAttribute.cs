@@ -73,7 +73,7 @@ namespace System.ComponentModel
         /// </summary>
         public BindingDirection Direction { get; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this)
             {

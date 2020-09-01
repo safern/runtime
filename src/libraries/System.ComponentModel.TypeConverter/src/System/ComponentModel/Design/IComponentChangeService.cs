@@ -11,42 +11,42 @@ namespace System.ComponentModel.Design
         /// <summary>
         /// Adds an event handler for the System.ComponentModel.Design.IComponentChangeService.ComponentAdded event.
         /// </summary>
-        event ComponentEventHandler ComponentAdded;
+        event ComponentEventHandler? ComponentAdded;
 
         /// <summary>
         /// Adds an event handler for the System.ComponentModel.Design.IComponentChangeService.ComponentAdding event.
         /// </summary>
-        event ComponentEventHandler ComponentAdding;
+        event ComponentEventHandler? ComponentAdding;
 
         /// <summary>
         /// Adds an event handler for the System.ComponentModel.Design.IComponentChangeService.ComponentChanged event.
         /// </summary>
-        event ComponentChangedEventHandler ComponentChanged;
+        event ComponentChangedEventHandler? ComponentChanged;
 
         /// <summary>
         /// Adds an event handler for the System.ComponentModel.Design.IComponentChangeService.ComponentChanging event.
         /// </summary>
-        event ComponentChangingEventHandler ComponentChanging;
+        event ComponentChangingEventHandler? ComponentChanging;
 
         /// <summary>
         /// Adds an event handler for the System.ComponentModel.Design.IComponentChangeService.OnComponentRemoved event.
         /// </summary>
-        event ComponentEventHandler ComponentRemoved;
+        event ComponentEventHandler? ComponentRemoved;
 
         /// <summary>
         /// Adds an event handler for the System.ComponentModel.Design.IComponentChangeService.OnComponentRemoving event.
         /// </summary>
-        event ComponentEventHandler ComponentRemoving;
+        event ComponentEventHandler? ComponentRemoving;
 
         /// <summary>
         /// Adds an event handler for the System.ComponentModel.Design.IComponentChangeService.OnComponentRename event.
         /// </summary>
-        event ComponentRenameEventHandler ComponentRename;
+        event ComponentRenameEventHandler? ComponentRename;
 
         /// <summary>
         /// Announces to the component change service that a particular component has changed.
         /// </summary>
-        void OnComponentChanged(object component, MemberDescriptor member, object oldValue, object newValue);
+        void OnComponentChanged(object component, MemberDescriptor member, object? oldValue, object? newValue);
 
         /// <summary>
         /// Announces to the component change service that a particular component is changing.

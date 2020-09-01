@@ -12,7 +12,7 @@ namespace System.ComponentModel
         /// Initializes a new instance of the <see cref='System.ComponentModel.EventDescriptor'/> class with the
         /// specified name and attribute array.
         /// </summary>
-        protected EventDescriptor(string name, Attribute[] attrs) : base(name, attrs)
+        protected EventDescriptor(string name, Attribute[]? attrs) : base(name, attrs)
         {
         }
 
@@ -29,7 +29,7 @@ namespace System.ComponentModel
         /// the name in the specified <see cref='System.ComponentModel.MemberDescriptor'/> and the
         /// attributes in both the <see cref='System.ComponentModel.MemberDescriptor'/> and the <see cref='System.Attribute'/> array.
         /// </summary>
-        protected EventDescriptor(MemberDescriptor descr, Attribute[] attrs) : base(descr, attrs)
+        protected EventDescriptor(MemberDescriptor descr, Attribute[]? attrs) : base(descr, attrs)
         {
         }
 
@@ -52,12 +52,12 @@ namespace System.ComponentModel
         /// <summary>
         /// When overridden in a derived class, binds the event to the component.
         /// </summary>
-        public abstract void AddEventHandler(object component, Delegate value);
+        public abstract void AddEventHandler(object? component, Delegate value);
 
         /// <summary>
         /// When overridden in a derived class, unbinds the delegate from the component
         /// so that the delegate will no longer receive events from the component.
         /// </summary>
-        public abstract void RemoveEventHandler(object component, Delegate value);
+        public abstract void RemoveEventHandler(object? component, Delegate value);
     }
 }

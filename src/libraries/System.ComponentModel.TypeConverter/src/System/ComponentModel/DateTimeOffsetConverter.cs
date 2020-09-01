@@ -17,7 +17,7 @@ namespace System.ComponentModel
         /// object in the given source type to a <see cref='System.DateTimeOffset'/>
         /// object using the specified context.
         /// </summary>
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type? sourceType)
         {
             return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
         }
@@ -26,7 +26,7 @@ namespace System.ComponentModel
         /// Gets a value indicating whether this converter can convert an
         /// object to the given destination type using the context.
         /// </summary>
-        public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        public override bool CanConvertTo(ITypeDescriptorContext? context, Type? destinationType)
         {
             return destinationType == typeof(InstanceDescriptor) || base.CanConvertTo(context, destinationType);
         }
@@ -35,7 +35,9 @@ namespace System.ComponentModel
         /// Converts the given value object to a <see cref='System.DateTime'/>
         /// object.
         /// </summary>
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+#pragma warning disable CS8765
+        public override object ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
+#pragma warning restore CS8765
         {
             if (value is string text)
             {
@@ -48,11 +50,11 @@ namespace System.ComponentModel
                 try
                 {
                     // See if we have a culture info to parse with. If so, then use it.
-                    DateTimeFormatInfo formatInfo = null;
+                    DateTimeFormatInfo? formatInfo = null;
 
                     if (culture != null)
                     {
-                        formatInfo = (DateTimeFormatInfo)culture.GetFormat(typeof(DateTimeFormatInfo));
+                        formatInfo = (DateTimeFormatInfo?)culture.GetFormat(typeof(DateTimeFormatInfo));
                     }
 
                     if (formatInfo != null)
@@ -77,7 +79,7 @@ namespace System.ComponentModel
         /// Converts the given value object to a <see cref='System.DateTimeOffset'/>
         /// object using the arguments.
         /// </summary>
-        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        public override object ConvertTo(ITypeDescriptorContext? context, CultureInfo? culture, object? value, Type destinationType)
         {
             // logic is exactly as in DateTimeConverter, only the offset pattern ' zzz' is added to the default
             // ConvertToString pattern.
@@ -94,8 +96,7 @@ namespace System.ComponentModel
                     culture = CultureInfo.CurrentCulture;
                 }
 
-                DateTimeFormatInfo formatInfo = null;
-                formatInfo = (DateTimeFormatInfo)culture.GetFormat(typeof(DateTimeFormatInfo));
+                DateTimeFormatInfo formatInfo = culture.DateTimeFormat;
 
                 string format;
                 if (culture == CultureInfo.InvariantCulture)
@@ -148,7 +149,7 @@ namespace System.ComponentModel
                 );
             }
 
-            return base.ConvertTo(context, culture, value, destinationType);
+            return base.ConvertTo(context, culture, value, destinationType)!;
         }
     }
 }

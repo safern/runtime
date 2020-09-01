@@ -23,7 +23,7 @@ namespace System.ComponentModel
 
         public bool IsDataObject { get; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this)
             {

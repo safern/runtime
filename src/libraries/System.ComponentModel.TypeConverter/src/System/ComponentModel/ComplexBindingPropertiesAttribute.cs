@@ -19,7 +19,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Initializes a new instance of the <see cref='System.ComponentModel.ComplexBindingPropertiesAttribute'/> class.
         /// </summary>
-        public ComplexBindingPropertiesAttribute(string dataSource)
+        public ComplexBindingPropertiesAttribute(string? dataSource)
         {
             DataSource = dataSource;
         }
@@ -27,7 +27,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Initializes a new instance of the <see cref='System.ComponentModel.ComplexBindingPropertiesAttribute'/> class.
         /// </summary>
-        public ComplexBindingPropertiesAttribute(string dataSource, string dataMember)
+        public ComplexBindingPropertiesAttribute(string? dataSource, string? dataMember)
         {
             DataSource = dataSource;
             DataMember = dataMember;
@@ -37,13 +37,13 @@ namespace System.ComponentModel
         /// Gets the name of the data source property for the component this attribute is
         /// bound to.
         /// </summary>
-        public string DataSource { get; }
+        public string? DataSource { get; }
 
         /// <summary>
         /// Gets the name of the data member property for the component this attribute is
         /// bound to.
         /// </summary>
-        public string DataMember { get; }
+        public string? DataMember { get; }
 
         /// <summary>
         /// Specifies the default value for the <see cref='System.ComponentModel.ComplexBindingPropertiesAttribute'/>, which is <see langword='null'/>. This
@@ -51,7 +51,7 @@ namespace System.ComponentModel
         /// </summary>
         public static readonly ComplexBindingPropertiesAttribute Default = new ComplexBindingPropertiesAttribute();
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             return obj is ComplexBindingPropertiesAttribute other &&
                    other.DataSource == DataSource &&

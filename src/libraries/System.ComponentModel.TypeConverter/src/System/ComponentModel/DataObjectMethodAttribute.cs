@@ -20,7 +20,7 @@ namespace System.ComponentModel
 
         public DataObjectMethodType MethodType { get; }
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this)
             {
@@ -32,7 +32,7 @@ namespace System.ComponentModel
 
         public override int GetHashCode() => ((int)MethodType).GetHashCode() ^ IsDefault.GetHashCode();
 
-        public override bool Match(object obj)
+        public override bool Match(object? obj)
         {
             if (obj == this)
             {

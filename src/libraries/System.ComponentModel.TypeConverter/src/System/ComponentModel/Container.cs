@@ -8,10 +8,10 @@ namespace System.ComponentModel
     /// </summary>
     public class Container : IContainer
     {
-        private ISite[] _sites;
+        private ISite[]? _sites;
         private int _siteCount;
-        private ComponentCollection _components;
-        private ContainerFilterService _filter;
+        private ComponentCollection? _components;
+        private ContainerFilterService? _filter;
         private bool _checkedFilter;
 
         private readonly object _syncObj = new object();
@@ -22,14 +22,14 @@ namespace System.ComponentModel
         /// Adds the specified component to the <see cref='System.ComponentModel.Container'/>
         /// The component is unnamed.
         /// </summary>
-        public virtual void Add(IComponent component) => Add(component, null);
+        public virtual void Add(IComponent? component) => Add(component, null);
 
         // Adds a component to the container.
         /// <summary>
         /// Adds the specified component to the <see cref='System.ComponentModel.Container'/> and assigns
         /// a name to it.
         /// </summary>
-        public virtual void Add(IComponent component, string name)
+        public virtual void Add(IComponent? component, string? name)
         {
             lock (_syncObj)
             {
@@ -38,7 +38,7 @@ namespace System.ComponentModel
                     return;
                 }
 
-                ISite site = component.Site;
+                ISite? site = component.Site;
                 if (site != null && site.Container == this)
                 {
                     return;
@@ -74,7 +74,7 @@ namespace System.ComponentModel
         /// Creates a Site <see cref='System.ComponentModel.ISite'/> for the given <see cref='System.ComponentModel.IComponent'/>
         /// and assigns the given name to the site.
         /// </summary>
-        protected virtual ISite CreateSite(IComponent component, string name)
+        protected virtual ISite CreateSite(IComponent component, string? name)
         {
             return new Site(component, this, name);
         }
@@ -113,7 +113,7 @@ namespace System.ComponentModel
                 {
                     while (_siteCount > 0)
                     {
-                        ISite site = _sites[--_siteCount];
+                        ISite site = _sites![--_siteCount];
                         site.Component.Site = null;
                         site.Component.Dispose();
                     }
@@ -123,7 +123,7 @@ namespace System.ComponentModel
             }
         }
 
-        protected virtual object GetService(Type service) => service == typeof(IContainer) ? this : null;
+        protected virtual object? GetService(Type service) => service == typeof(IContainer) ? this : null;
 
         /// <summary>
         /// Gets all the components in the <see cref='System.ComponentModel.Container'/>.
@@ -139,7 +139,7 @@ namespace System.ComponentModel
                         IComponent[] result = new IComponent[_siteCount];
                         for (int i = 0; i < _siteCount; i++)
                         {
-                            result[i] = _sites[i].Component;
+                            result[i] = _sites![i].Component;
                         }
                         _components = new ComponentCollection(result);
 
@@ -174,13 +174,13 @@ namespace System.ComponentModel
         /// <summary>
         /// Removes a component from the <see cref='System.ComponentModel.Container'/>.
         /// </summary>
-        public virtual void Remove(IComponent component) => Remove(component, false);
+        public virtual void Remove(IComponent? component) => Remove(component, false);
 
-        private void Remove(IComponent component, bool preserveSite)
+        private void Remove(IComponent? component, bool preserveSite)
         {
             lock (_syncObj)
             {
-                ISite site = component?.Site;
+                ISite? site = component?.Site;
                 if (site == null || site.Container != this)
                 {
                     return;
@@ -188,16 +188,16 @@ namespace System.ComponentModel
 
                 if (!preserveSite)
                 {
-                    component.Site = null;
+                    component!.Site = null;
                 }
 
                 for (int i = 0; i < _siteCount; i++)
                 {
-                    if (_sites[i] == site)
+                    if (_sites![i] == site)
                     {
                         _siteCount--;
                         Array.Copy(_sites, i + 1, _sites, i, _siteCount - i);
-                        _sites[_siteCount] = null;
+                        _sites[_siteCount] = null!;
                         _components = null;
                         break;
                     }
@@ -212,23 +212,28 @@ namespace System.ComponentModel
         /// verifies that name is either null or unique compared to the names of other
         /// components in the container.
         /// </summary>
-        protected virtual void ValidateName(IComponent component, string name)
+        protected virtual void ValidateName(IComponent component, string? name)
         {
             if (component == null)
             {
                 throw new ArgumentNullException(nameof(component));
             }
 
+            if (_sites == null)
+            {
+                return;
+            }
+
             if (name != null)
             {
                 for (int i = 0; i < Math.Min(_siteCount, _sites.Length); i++)
                 {
-                    ISite s = _sites[i];
+                    ISite? s = _sites[i];
 
                     if (s?.Name != null && string.Equals(s.Name, name, StringComparison.OrdinalIgnoreCase) && s.Component != component)
                     {
-                        InheritanceAttribute inheritanceAttribute = (InheritanceAttribute)TypeDescriptor.GetAttributes(s.Component)[typeof(InheritanceAttribute)];
-                        if (inheritanceAttribute.InheritanceLevel != InheritanceLevel.InheritedReadOnly)
+                        InheritanceAttribute? inheritanceAttribute = (InheritanceAttribute?)TypeDescriptor.GetAttributes(s.Component)[typeof(InheritanceAttribute)];
+                        if (inheritanceAttribute != null && inheritanceAttribute.InheritanceLevel != InheritanceLevel.InheritedReadOnly)
                         {
                             throw new ArgumentException(SR.Format(SR.DuplicateComponentName, name));
                         }
@@ -239,9 +244,9 @@ namespace System.ComponentModel
 
         private class Site : ISite
         {
-            private string _name;
+            private string? _name;
 
-            internal Site(IComponent component, Container container, string name)
+            internal Site(IComponent component, Container container, string? name)
             {
                 Component = component;
                 Container = container;
@@ -258,7 +263,7 @@ namespace System.ComponentModel
             /// </summary>
             public IContainer Container { get; }
 
-            public object GetService(Type service)
+            public object? GetService(Type service)
             {
                 return ((service == typeof(ISite)) ? this : ((Container)Container).GetService(service));
             }
@@ -271,7 +276,7 @@ namespace System.ComponentModel
             /// <summary>
             /// The name of the component.
             /// </summary>
-            public string Name
+            public string? Name
             {
                 get => _name;
                 set

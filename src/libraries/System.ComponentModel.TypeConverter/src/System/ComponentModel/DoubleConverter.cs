@@ -24,7 +24,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Convert the given value to a string using the given radix
         /// </summary>
-        internal override object FromString(string value, int radix)
+        internal override object FromString(string? value, int radix)
         {
             return Convert.ToDouble(value, CultureInfo.CurrentCulture);
         }

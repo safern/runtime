@@ -51,7 +51,7 @@ namespace System.ComponentModel
         /// </summary>
         public static readonly DesignTimeVisibleAttribute Default = Yes;
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (obj == this)
             {

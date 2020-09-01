@@ -135,7 +135,7 @@ namespace System.ComponentModel
         /// This adds the delegate value as a listener to when this event is fired
         /// by the component, invoking the addOnXXX method.
         /// </summary>
-        public override void AddEventHandler(object component, Delegate value)
+        public override void AddEventHandler(object? component, Delegate value)
         {
             FillMethods();
 
@@ -172,11 +172,11 @@ namespace System.ComponentModel
                 if (site != null && site.DesignMode)
                 {
                     // Events are final, so just check the class
-                    if (EventType != value.GetType())
+                    if (EventType != value?.GetType())
                     {
                         throw new ArgumentException(SR.Format(SR.ErrorInvalidEventHandler, Name));
                     }
-                    IDictionaryService dict = (IDictionaryService)site.GetService(typeof(IDictionaryService));
+                    IDictionaryService? dict = (IDictionaryService?)site.GetService(typeof(IDictionaryService));
                     if (dict != null)
                     {
                         Delegate eventdesc = (Delegate)dict.GetValue(this);

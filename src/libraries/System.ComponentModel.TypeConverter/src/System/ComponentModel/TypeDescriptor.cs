@@ -26,7 +26,7 @@ namespace System.ComponentModel
         private static readonly WeakHashtable s_providerTable = new WeakHashtable();     // mapping of type or object hash to a provider list
         private static readonly Hashtable s_providerTypeTable = new Hashtable();         // A direct mapping from type to provider.
         private static readonly Hashtable s_defaultProviders = new Hashtable(); // A table of type -> default provider to track DefaultTypeDescriptionProviderAttributes.
-        private static WeakHashtable s_associationTable;
+        private static WeakHashtable? s_associationTable;
         private static int s_metadataVersion;                          // a version stamp for our metadata. Used by property descriptors to know when to rebuild attributes.
 
         // This is an index that we use to create a unique name for a property in the
@@ -99,7 +99,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Occurs when Refreshed is raised for a component.
         /// </summary>
-        public static event RefreshEventHandler Refreshed;
+        public static event RefreshEventHandler? Refreshed;
 
         /// <summary>
         /// The AddAttributes method allows you to add class-level attributes for a
@@ -328,10 +328,10 @@ namespace System.ComponentModel
             for (int idx = attrs.Length - 1; idx >= 0; idx--)
             {
                 TypeDescriptionProviderAttribute pa = (TypeDescriptionProviderAttribute)attrs[idx];
-                Type providerType = Type.GetType(pa.TypeName);
+                Type? providerType = Type.GetType(pa.TypeName);
                 if (providerType != null && typeof(TypeDescriptionProvider).IsAssignableFrom(providerType))
                 {
-                    TypeDescriptionProvider prov = (TypeDescriptionProvider)Activator.CreateInstance(providerType);
+                    TypeDescriptionProvider prov = (TypeDescriptionProvider)Activator.CreateInstance(providerType)!;
                     AddProvider(prov, type);
                     providerAdded = true;
                 }
@@ -340,7 +340,7 @@ namespace System.ComponentModel
             // If we did not add a provider, check the base class.
             if (!providerAdded)
             {
-                Type baseType = type.BaseType;
+                Type? baseType = type.BaseType;
                 if (baseType != null && baseType != type)
                 {
                     CheckDefaultProvider(baseType);
@@ -375,13 +375,13 @@ namespace System.ComponentModel
             }
 
             WeakHashtable associationTable = AssociationTable;
-            IList associations = (IList)associationTable[primary];
+            IList? associations = (IList?)associationTable[primary];
 
             if (associations == null)
             {
                 lock (associationTable)
                 {
-                    associations = (IList)associationTable[primary];
+                    associations = (IList?)associationTable[primary];
                     if (associations == null)
                     {
                         associations = new ArrayList(4);
@@ -393,7 +393,7 @@ namespace System.ComponentModel
             {
                 for (int idx = associations.Count - 1; idx >= 0; idx--)
                 {
-                    WeakReference r = (WeakReference)associations[idx];
+                    WeakReference r = (WeakReference)associations[idx]!;
                     if (r.IsAlive && r.Target == secondary)
                     {
                         throw new ArgumentException(SR.TypeDescriptorAlreadyAssociated);
@@ -430,7 +430,7 @@ namespace System.ComponentModel
         /// data type. If it finds one, it will delegate the call to that object.
         /// </summary>
         [UnsupportedOSPlatform("browser")]
-        public static object CreateInstance(IServiceProvider provider, Type objectType, Type[] argTypes, object[] args)
+        public static object CreateInstance(IServiceProvider? provider, Type objectType, Type[]? argTypes, object?[]? args)
         {
             if (objectType == null)
             {
@@ -450,7 +450,7 @@ namespace System.ComponentModel
                 }
             }
 
-            object instance = null;
+            object? instance = null;
 
             // See if the provider wants to offer a TypeDescriptionProvider to delegate to. This allows
             // a caller to have complete control over all object instantiation.
@@ -1195,7 +1195,7 @@ namespace System.ComponentModel
         /// Gets a collection of properties for a specified type of
         /// component using a specified array of attributes as a filter.
         /// </summary>
-        public static PropertyDescriptorCollection GetProperties(Type componentType, Attribute[] attributes)
+        public static PropertyDescriptorCollection GetProperties(Type componentType, Attribute[]? attributes)
         {
             if (componentType == null)
             {
@@ -1239,7 +1239,7 @@ namespace System.ComponentModel
         /// component using a specified array of attributes
         /// as a filter.
         /// </summary>
-        public static PropertyDescriptorCollection GetProperties(object component, Attribute[] attributes)
+        public static PropertyDescriptorCollection GetProperties(object component, Attribute[]? attributes)
         {
             return GetProperties(component, attributes, false);
         }
@@ -1249,7 +1249,7 @@ namespace System.ComponentModel
         /// component using a specified array of attributes
         /// as a filter.
         /// </summary>
-        public static PropertyDescriptorCollection GetProperties(object component, Attribute[] attributes, bool noCustomTypeDesc)
+        public static PropertyDescriptorCollection GetProperties(object component, Attribute[]? attributes, bool noCustomTypeDesc)
         {
             return GetPropertiesImpl(component, attributes, noCustomTypeDesc, false);
         }
@@ -1259,7 +1259,7 @@ namespace System.ComponentModel
         /// only if noAttributes is false. This is to preserve backward compat for the case when
         /// no attribute filter was passed in (as against passing in null).
         /// </summary>
-        private static PropertyDescriptorCollection GetPropertiesImpl(object component, Attribute[] attributes, bool noCustomTypeDesc, bool noAttributes)
+        private static PropertyDescriptorCollection GetPropertiesImpl(object component, Attribute[]? attributes, bool noCustomTypeDesc, bool noAttributes)
         {
             if (component == null)
             {

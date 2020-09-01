@@ -13,8 +13,8 @@ namespace System.ComponentModel
     /// </summary>
     public abstract class TypeDescriptionProvider
     {
-        private readonly TypeDescriptionProvider _parent;
-        private EmptyCustomTypeDescriptor _emptyDescriptor;
+        private readonly TypeDescriptionProvider? _parent;
+        private EmptyCustomTypeDescriptor? _emptyDescriptor;
 
         /// <summary>
         /// There are two versions of the constructor for this class. The empty
@@ -51,7 +51,7 @@ namespace System.ComponentModel
         /// method will invoke the parent provider's CreateInstance method.
         /// </summary>
         [UnsupportedOSPlatform("browser")]
-        public virtual object CreateInstance(IServiceProvider provider, Type objectType, Type[] argTypes, object[] args)
+        public virtual object? CreateInstance(IServiceProvider? provider, Type objectType, Type[]? argTypes, object?[]? args)
         {
             if (_parent != null)
             {
@@ -77,7 +77,7 @@ namespace System.ComponentModel
         /// The GetCache method returns an instance of this cache. GetCache will return
         /// null if there is no supported cache for an object.
         /// </summary>
-        public virtual IDictionary GetCache(object instance) => _parent?.GetCache(instance);
+        public virtual IDictionary? GetCache(object? instance) => _parent?.GetCache(instance);
 
         /// <summary>
         /// This method returns an extended custom type descriptor for the given object.
@@ -127,7 +127,7 @@ namespace System.ComponentModel
         /// If not overridden, the default implementation of this method will call
         /// GetTypeDescriptor.GetComponentName.
         /// </summary>
-        public virtual string GetFullComponentName(object component)
+        public virtual string? GetFullComponentName(object component)
         {
             if (_parent != null)
             {
@@ -172,7 +172,7 @@ namespace System.ComponentModel
         /// object type if no parent provider was passed. If a parent provider was passed, this
         /// method will invoke the parent provider's GetReflectionType method.
         /// </summary>
-        public virtual Type GetReflectionType(Type objectType, object instance)
+        public virtual Type GetReflectionType(Type objectType, object? instance)
         {
             if (_parent != null)
             {
@@ -253,7 +253,7 @@ namespace System.ComponentModel
         /// this method will invoke the parent provider's GetTypeDescriptor
         /// method.
         /// </summary>
-        public virtual ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object instance)
+        public virtual ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object? instance)
         {
             if (_parent != null)
             {

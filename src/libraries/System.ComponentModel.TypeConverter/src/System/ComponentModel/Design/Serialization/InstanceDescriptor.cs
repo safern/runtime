@@ -16,14 +16,14 @@ namespace System.ComponentModel.Design.Serialization
         /// <summary>
         /// Creates a new InstanceDescriptor.
         /// </summary>
-        public InstanceDescriptor(MemberInfo member, ICollection arguments) : this(member, arguments, true)
+        public InstanceDescriptor(MemberInfo? member, ICollection? arguments) : this(member, arguments, true)
         {
         }
 
         /// <summary>
         /// Creates a new InstanceDescriptor.
         /// </summary>
-        public InstanceDescriptor(MemberInfo member, ICollection arguments, bool isComplete)
+        public InstanceDescriptor(MemberInfo? member, ICollection? arguments, bool isComplete)
         {
             MemberInfo = member;
             IsComplete = isComplete;
@@ -104,7 +104,7 @@ namespace System.ComponentModel.Design.Serialization
         /// The MemberInfo object that was passed into the constructor
         /// of this InstanceDescriptor.
         /// </summary>
-        public MemberInfo MemberInfo { get; }
+        public MemberInfo? MemberInfo { get; }
 
         /// <summary>
         /// Invokes this instance descriptor, returning the object

@@ -16,7 +16,7 @@ namespace System.ComponentModel
         /// Gets a value indicating whether this converter can convert an object
         /// in the given source type to a Boolean object using the specified context.
         /// </summary>
-        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        public override bool CanConvertFrom(ITypeDescriptorContext? context, Type? sourceType)
         {
             return sourceType == typeof(string) || base.CanConvertFrom(context, sourceType);
         }
@@ -25,7 +25,9 @@ namespace System.ComponentModel
         /// Converts the given value
         /// object to a Boolean object.
         /// </summary>
-        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+#pragma warning disable CS8765
+        public override object ConvertFrom(ITypeDescriptorContext? context, CultureInfo? culture, object value)
+#pragma warning restore CS8765
         {
             if (value is string text)
             {
@@ -45,7 +47,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Gets a collection of standard values for the Boolean data type.
         /// </summary>
-        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
+        public override StandardValuesCollection GetStandardValues(ITypeDescriptorContext? context)
         {
             return s_values ?? (s_values = new StandardValuesCollection(new object[] { true, false }));
         }
@@ -56,7 +58,7 @@ namespace System.ComponentModel
         /// <see cref='System.ComponentModel.BooleanConverter.GetStandardValues'/> is an exclusive list.
         ///
         /// </summary>
-        public override bool GetStandardValuesExclusive(ITypeDescriptorContext context) => true;
+        public override bool GetStandardValuesExclusive(ITypeDescriptorContext? context) => true;
 
         /// <summary>
         ///
@@ -64,6 +66,6 @@ namespace System.ComponentModel
         /// be picked from a list.
         ///
         /// </summary>
-        public override bool GetStandardValuesSupported(ITypeDescriptorContext context) => true;
+        public override bool GetStandardValuesSupported(ITypeDescriptorContext? context) => true;
     }
 }

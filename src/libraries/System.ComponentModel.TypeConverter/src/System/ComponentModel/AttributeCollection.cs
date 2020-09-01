@@ -17,7 +17,7 @@ namespace System.ComponentModel
         /// </summary>
         public static readonly AttributeCollection Empty = new AttributeCollection(null);
 
-        private static Hashtable s_defaultAttributes;
+        private static Hashtable? s_defaultAttributes;
 
         private readonly Attribute[] _attributes;
 
@@ -31,14 +31,14 @@ namespace System.ComponentModel
 
         private const int FoundTypesLimit = 5;
 
-        private AttributeEntry[] _foundAttributeTypes;
+        private AttributeEntry[]? _foundAttributeTypes;
 
         private int _index;
 
         /// <summary>
         /// Creates a new AttributeCollection.
         /// </summary>
-        public AttributeCollection(params Attribute[] attributes)
+        public AttributeCollection(params Attribute[]? attributes)
         {
             _attributes = attributes ?? Array.Empty<Attribute>();
 
@@ -58,7 +58,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Creates a new AttributeCollection from an existing AttributeCollection
         /// </summary>
-        public static AttributeCollection FromExisting(AttributeCollection existing, params Attribute[] newAttributes)
+        public static AttributeCollection FromExisting(AttributeCollection existing, params Attribute[]? newAttributes)
         {
             if (existing == null)
             {
@@ -133,7 +133,7 @@ namespace System.ComponentModel
         /// <summary>
         /// Gets the attribute with the specified type.
         /// </summary>
-        public virtual Attribute this[Type attributeType]
+        public virtual Attribute? this[Type attributeType]
         {
             get
             {
@@ -213,7 +213,7 @@ namespace System.ComponentModel
         /// </summary>
         public bool Contains(Attribute attribute)
         {
-            Attribute attr = this[attribute.GetType()];
+            Attribute? attr = this[attribute.GetType()];
             return attr != null && attr.Equals(attribute);
         }
 
@@ -221,7 +221,7 @@ namespace System.ComponentModel
         /// Determines if this attribute collection contains the all
         /// the specified attributes in the attribute array.
         /// </summary>
-        public bool Contains(Attribute[] attributes)
+        public bool Contains(Attribute[]? attributes)
         {
             if (attributes == null)
             {
@@ -243,7 +243,7 @@ namespace System.ComponentModel
         /// Returns the default value for an attribute. This uses the following heuristic:
         /// 1. It looks for a public static field named "Default".
         /// </summary>
-        protected Attribute GetDefaultAttribute(Type attributeType)
+        protected Attribute? GetDefaultAttribute(Type attributeType)
         {
             lock (s_internalSyncObject)
             {
@@ -255,22 +255,22 @@ namespace System.ComponentModel
                 // If we have already encountered this, use what's in the table.
                 if (s_defaultAttributes.ContainsKey(attributeType))
                 {
-                    return (Attribute)s_defaultAttributes[attributeType];
+                    return (Attribute?)s_defaultAttributes[attributeType];
                 }
 
-                Attribute attr = null;
+                Attribute? attr = null;
 
                 // Not in the table, so do the legwork to discover the default value.
                 Type reflect = TypeDescriptor.GetReflectionType(attributeType);
-                FieldInfo field = reflect.GetField("Default", BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField);
+                FieldInfo? field = reflect.GetField("Default", BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField);
 
                 if (field != null && field.IsStatic)
                 {
-                    attr = (Attribute)field.GetValue(null);
+                    attr = (Attribute?)field.GetValue(null);
                 }
                 else
                 {
-                    ConstructorInfo ci = reflect.UnderlyingSystemType.GetConstructor(Array.Empty<Type>());
+                    ConstructorInfo? ci = reflect.UnderlyingSystemType.GetConstructor(Array.Empty<Type>());
                     if (ci != null)
                     {
                         attr = (Attribute)ci.Invoke(Array.Empty<object>());
@@ -298,7 +298,7 @@ namespace System.ComponentModel
         /// Determines if a specified attribute is the same as an attribute
         /// in the collection.
         /// </summary>
-        public bool Matches(Attribute attribute)
+        public bool Matches(Attribute? attribute)
         {
             for (int i = 0; i < Attributes.Length; i++)
             {
@@ -316,6 +316,11 @@ namespace System.ComponentModel
         /// </summary>
         public bool Matches(Attribute[] attributes)
         {
+            if (attributes == null)
+            {
+                throw new ArgumentNullException(nameof(attributes));
+            }
+
             for (int i = 0; i < attributes.Length; i++)
             {
                 if (!Matches(attributes[i]))
@@ -329,7 +334,7 @@ namespace System.ComponentModel
 
         bool ICollection.IsSynchronized => false;
 
-        object ICollection.SyncRoot => null;
+        object ICollection.SyncRoot => null!;
 
         int ICollection.Count => Count;
 
