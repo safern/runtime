@@ -19,7 +19,6 @@ parameters:
   timeoutInMinutes: ''
   enableMicrobuild: ''
   gatherAssetManifests: false
-
   variables: {} ## any extra variables to add to the defaults defined below
 
 jobs:
