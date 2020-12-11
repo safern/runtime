@@ -22,4 +22,20 @@
     <NETCoreAppMaximumVersion>$(MajorVersion).$(MinorVersion)</NETCoreAppMaximumVersion>
   </PropertyGroup>
 
+  <UsingTask TaskName="ValidateAssemblyInformationalVersion" AssemblyFile="$(InstallerTasksAssemblyPath)"/>
+  <Target Name="ValidateAssemblyInfoVersion"
+          AfterTargets="CopyFilesToOutputDirectory"
+          Condition="'$(ShouldValidateAssemblyInfoVersion)' == 'true'">
+
+    <PropertyGroup>
+      <_expectedVersion>$(ProductVersion)-$(VersionSuffix)</_expectedVersion>
+      <_expectedVersion Condition="'$(DotNetFinalVersionKind)' == 'release'">$(ProductVersion)</_expectedVersion>
+    </PropertyGroup>
+
+    <ValidateAssemblyInformationalVersion
+      AssemblyPath="$(TargetPath)"
+      ProductVersion="$(_expectedVersion)" />
+
+  </Target>
+
 </Project>
