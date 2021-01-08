@@ -1,0 +1,21 @@
+parameters:
+  packageDistroList: ''
+  buildConfig: ''
+  osGroup: ''
+  archType: ''
+  runtimeFlavor: ''
+
+steps:
+- ${{ each packageBuild in parameters.packageDistroList }}:
+  - script: ./eng/install-nuget-credprovider-then-build.sh
+            -ci
+            -subset packs.installers
+            -c ${{ parameters.buildConfig }}
+            -os ${{ parameters.osGroup }}
+            -arch ${{ parameters.archType }}
+            ${{ packageBuild.packagingArgs }}
+            $(_officialBuildParameter)
+            /bl:artifacts/log/${{ parameters.buildConfig }}/msbuild.${{ packageBuild.packageType }}.installer.binlog
+    displayName: Package ${{ packageBuild.packageType }} installers
+    target: ${{ packageBuild.image }}
+    

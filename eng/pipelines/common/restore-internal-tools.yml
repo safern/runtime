@@ -1,8 +1,13 @@
+parameters:
+  targetContainer: ''
+
 steps:
   - task: NuGetAuthenticate@0
     inputs:
       nuGetServiceConnections: 'dotnet-core-internal-tooling'
       forceReinstallCredentialProvider: true
+    ${{ if ne(parameters.targetContainer, '') }}:
+      target: ${{ parameters.targetContainer }}
 
   - script: $(Build.SourcesDirectory)$(dir)build$(scriptExt)
             -ci
@@ -12,3 +17,5 @@ steps:
             /v:normal
     displayName: Restore internal tools
     condition: and(succeeded(), ne(variables['_skipRestoreInternalTools'], 'true'))
+    ${{ if ne(parameters.targetContainer, '') }}:
+      target: ${{ parameters.targetContainer }}

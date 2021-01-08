@@ -14,6 +14,8 @@ parameters:
   pool: ''
   platform: ''
   condition: true
+  useMultipleContainers: false
+  mainContainerName: ''
   useContinueOnErrorDuringBuild: false
   shouldContinueOnError: false
   useCheckoutBundle: false
@@ -21,6 +23,7 @@ parameters:
   runtimeFlavor: 'coreclr'
   helixQueues: ''
   enablePublishTestResults: false
+  uploadOfficialBuildArtifacts: false
   testResultsFormat: ''
   extraStepsTemplate: ''
   extraStepsParameters: {}
@@ -31,11 +34,13 @@ jobs:
     name: ${{ format('build_{0}{1}_{2}_{3}_{4}', parameters.osGroup, parameters.osSubgroup, parameters.archType, parameters.buildConfig, parameters.nameSuffix) }}
     displayName: ${{ format('Build {0}{1} {2} {3} {4}', parameters.osGroup, parameters.osSubgroup, parameters.archType, parameters.buildConfig, parameters.nameSuffix) }}
     pool: ${{ parameters.pool }}
-    container: ${{ parameters.container }}
     condition: and(succeeded(), ${{ parameters.condition }})
     timeoutInMinutes: ${{ parameters.timeoutInMinutes }}
     enablePublishTestResults: ${{ parameters.enablePublishTestResults }}
     testResultsFormat: ${{ parameters.testResultsFormat }}
+
+    ${{ if eq(parameters.useMultipleContainers, false) }}:
+      container: ${{ parameters.container }}
 
     workspace:
       clean: all
@@ -81,6 +86,9 @@ jobs:
 
     - ${{ if eq(parameters.isOfficialBuild, true) }}:
       - template: /eng/pipelines/common/restore-internal-tools.yml
+        ${{ if eq(parameters.useMultipleContainers, true) }}:
+          parameters:
+            targetContainer: ${{ parameters.mainContainerName }}
 
     - ${{ if in(parameters.osGroup, 'OSX', 'iOS', 'tvOS', 'Android') }}:
       - script: $(Build.SourcesDirectory)/eng/install-native-dependencies.sh ${{ parameters.osGroup }} ${{ parameters.archType }} azDO
@@ -96,6 +104,8 @@ jobs:
       displayName: Build product
       ${{ if eq(parameters.useContinueOnErrorDuringBuild, true) }}:
         continueOnError: ${{ parameters.shouldContinueOnError }}
+      ${{ if eq(parameters.useMultipleContainers, true) }}:
+        target: ${{ parameters.mainContainerName }}
 
     - ${{ if in(parameters.osGroup, 'OSX', 'iOS', 'tvOS', 'Android') }}:
       - script: |
@@ -119,6 +129,11 @@ jobs:
           platform: ${{ parameters.platform }}
           shouldContinueOnError: ${{ parameters.shouldContinueOnError }}
           ${{ insert }}: ${{ parameters.extraStepsParameters }}
+
+    - ${{ if and(eq(parameters.uploadOfficialBuildArtifacts, true), eq(parameters.isOfficialBuild, true)) }}:
+      - template: /eng/pipelines/common/upload-intermediate-artifacts-step.yml
+        parameters:
+          name: ${{ format('{0}_{1}{2}', parameters.platform, parameters.runtimeFlavor, parameters.nameSuffix) }}
 
     - task: PublishBuildArtifacts@1
       displayName: Publish Logs
